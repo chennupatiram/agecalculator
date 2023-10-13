@@ -1,25 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
 
+import { useState } from "react";
+import AgeCalculatorForm from "./components/AgeCalculatorForm";
+import AgeResult from "./components/AgeResult";
+import { differenceInYears } from 'date-fns'
+
 function App() {
+
+  const[age, setAge] = useState(null);
+
+  const calculateAge =(birthDate) =>{
+    const today = new Date();
+    const birthdateObj = new Date(birthDate);
+    const ageYears = differenceInYears(today, birthdateObj);
+    setAge({
+      years: ageYears,
+    });
+  };
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="form">
+      <center>
+      <h1>Age Calculator</h1>
+      <h3><b>Enter your Date of Birth </b></h3>
+      <AgeCalculatorForm  calculateAge={calculateAge}/>
+      {age && <AgeResult age={age}  />}
+      </center>
     </div>
   );
 }
 
-export default App;
+export default App
